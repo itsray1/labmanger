@@ -1,7 +1,7 @@
 import { Link, useRouteLoaderData, useSubmit } from 'react-router-dom';
 
 
-function AdsItem({ Ads }) {
+function TestItem({ test }) {
   const token = useRouteLoaderData('root');
   const submit = useSubmit();
 
@@ -15,10 +15,10 @@ function AdsItem({ Ads }) {
 
   return (
     <article>
-      <h1>{Ads.name}</h1>
-      <time>{Ads.startdate}</time>
-      <time>{Ads.enddate}</time>
-      <p>{Ads.description}</p>
+      <h1>{test .name}</h1>
+      <time>{test .startdate}</time>
+      <time>{test .enddate}</time>
+      <p>{test .description}</p>
       {token && (
         <menu>
           <Link to="edit">Edit</Link>
@@ -29,4 +29,4 @@ function AdsItem({ Ads }) {
   );
 }
 
-export default AdsItem;
+export default TestItem;

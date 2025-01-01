@@ -102,14 +102,13 @@ import { Suspense } from 'react';
 
 import {
   useRouteLoaderData,
-  json,
   redirect,
   Await,
 } from 'react-router-dom';
 
-import BrunchItem from '../components/BrunchItem';
-import BrunchList from '../components/BrunchList';
-import { getAuthToken } from '../util/auth';
+import BrunchItem from '../../components/Brunch/BrunchItem';
+import BrunchList from '../../components/Brunch/BrunchList';
+import { getAuthToken } from '../../util/auth';
 
 function BrunchDetailPage() {
   const { brunch, brunches } = useRouteLoaderData('brunch-detail');
@@ -148,21 +147,14 @@ async function loadBrunch(id) {
 }
 
 async function loadBrunches() {
-  const response = await fetch('http://localhost:8080/lab/labid/Brunch');
+  const response = await fetch('http://localhost:8080/brunch');
 
   if (!response.ok) {
-    // return { isError: true, message: 'Could not fetch events.' };
     throw new Response(JSON.stringify({ message: 'Could not fetch events.' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
   
-    // throw json(
-    //   { message: 'Could not fetch Brunches.' },
-    //   {
-    //     status: 500,
-    //   }
-    // );
   } else {
     const resData = await response.json();
     return resData.brunches;
@@ -181,13 +173,12 @@ export async function loader({  params }) {
 
 export async function action({ params, request }) {
   const brunchId = params.brunchId;
-
   const token = getAuthToken();
-  const response = await fetch('http://localhost:8080/lab/labid/brunch/' + brunchId, {
+  const response = await fetch('http://127.0.0.1:8000/lab_manager/delete_branch/' ,{
     method: request.method,
     headers: {
       'Authorization': 'Bearer ' + token
-    }
+    },body:brunchId , 
   });
 
   if (!response.ok) {

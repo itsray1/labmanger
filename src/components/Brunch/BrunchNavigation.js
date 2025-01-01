@@ -5,25 +5,25 @@ function BrunchNavigation() {
   const token = useRouteLoaderData('root');
 
   return (
-    <header >
+    <header>
       <nav>
         <ul>
           <li>
             <NavLink
-              to="/ads"
+              to="/brunch"
              
               end
             >
-              All Ads
+              All brunches
             </NavLink>
           </li>
           {token && (
             <li>
               <NavLink
-                to="/ads/new"
+                to="/brunch/new"
     
               >
-                New ads
+                New brunch
               </NavLink>
             </li>
           )}

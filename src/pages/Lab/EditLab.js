@@ -1,6 +1,6 @@
 import { useRouteLoaderData } from 'react-router-dom';
 
-import LabForm from '../components/LabForm';
+import LabForm from '../../components/Lab/LabForm';
 
 function EditLabPage() {
   const data = useRouteLoaderData('lab-detail');

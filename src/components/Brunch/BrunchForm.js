@@ -5,9 +5,10 @@ import {
   useActionData,
   redirect
 } from 'react-router-dom';
-import { getAuthToken } from '../util/auth';
+import { getAuthToken } from '../../util/auth';
 
-function LabForm({ method, lab }) {
+
+function BrunchForm({ method, brunch}) {
   const data = useActionData();
   const navigate = useNavigate();
   const navigation = useNavigation();
@@ -19,7 +20,7 @@ function LabForm({ method, lab }) {
   }
 
   return (
-    <Form method={method} >
+    <Form method={method}  >
       {data && data.errors && (
         <ul>
           {Object.values(data.errors).map((err) => (
@@ -27,47 +28,47 @@ function LabForm({ method, lab }) {
           ))}
         </ul>
       )}
-      <p>
-        <label htmlFor="name">Lab Name</label>
+      <p >
+        <label htmlFor="name">Brunch Name</label>
         <input
           id="name"
           type="text"
           name="name"
           required
-          defaultValue={lab ? lab.name : ''}
+          defaultValue={brunch ? brunch.name : ''}
         />
       </p>
       <p>
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          name="description"
-          rows="5"
-          required
-          defaultValue={lab ? lab.description : ''}
-        />
-      </p>
-      <p>
-        <label htmlFor="image">Image URL</label>
+        <label htmlFor="phoneNumber">Phone Number</label>
         <input
-          id="image"
-          type="url"
-          name="image"
+          id="phoneNumber"
+          type="text"
+          name="phoneNumber"
           required
-          defaultValue={lab ? lab.image : ''}
+          defaultValue={brunch ? brunch.phoneNumber : ''}
         />
       </p>
       <p>
-        <label htmlFor="logo">Logo URL</label>
+        <label htmlFor="location">Location</label>
         <input
-          id="logo"
-          type="url"
-          name="logo"
+          id="location"
+          type="text"
+          name="location"
           required
-          defaultValue={lab ? lab.logo : ''}
+          defaultValue={brunch ? brunch.location : ''}
         />
       </p>
-      <div >
+      <p>
+        <label htmlFor="link">Location Link</label>
+        <input
+          id="link"
+          type="url"
+          name="link"
+          required
+          defaultValue={brunch ? brunch.link : ''}
+        />
+      </p>
+      <div>
         <button type="button" onClick={cancelHandler} disabled={isSubmitting}>
           Cancel
         </button>
@@ -79,24 +80,24 @@ function LabForm({ method, lab }) {
   );
 }
 
-export default LabForm;
+export default BrunchForm;
 
 export async function action({ request, params }) {
   const method = request.method;
   const data = await request.formData();
 
-  const labData = {
+  const brunchData = {
     name: data.get('name'),
-    description: data.get('description'),
-    image: data.get('image'),
-    logo: data.get('logo'),
+    phoneNumber: data.get('phoneNumber'),
+    location: data.get('location'),
+    link: data.get('link'),
   };
 
-  let url = 'http://localhost:8080/labs';
+  let url ='http://127.0.0.1:8000/lab_manager/add_branch/';
 
   if (method === 'PATCH') {
-    const labId = params.labId;
-    url += `/${labId}`;
+   
+    url = 'http://127.0.0.1:8000/lab_manager/update_branch/';
   }
 
   const token = getAuthToken();
@@ -106,7 +107,7 @@ export async function action({ request, params }) {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     },
-    body: JSON.stringify(labData),
+    body: JSON.stringify(brunchData),
   });
 
   if (response.status === 422) {
@@ -117,11 +118,11 @@ export async function action({ request, params }) {
   }
 
   if (!response.ok) {
-    throw new Response(JSON.stringify({ message: 'Could not save lab.' }), {
+    throw new Response(JSON.stringify({ message: 'Could not save branch.' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  return redirect('/lab');
+  return redirect('/branch');
 }

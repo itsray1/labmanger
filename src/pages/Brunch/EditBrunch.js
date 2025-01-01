@@ -1,6 +1,6 @@
 import { useRouteLoaderData } from 'react-router-dom';
 
-import BrunchForm from '../components/BrunchForm';
+import BrunchForm from '../../components/Brunch/BrunchForm';
 
 function BrunchEditPage() {
   const data = useRouteLoaderData('brunch-detail');

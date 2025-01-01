@@ -5,10 +5,10 @@ import {
   useActionData,
   redirect
 } from 'react-router-dom';
-import { getAuthToken } from '../util/auth';
+import { getAuthToken } from '../../util/auth';
 
 
-function BrunchForm({ method, brunch}) {
+function TestForm({ method, test}) {
   const data = useActionData();
   const navigate = useNavigate();
   const navigation = useNavigation();
@@ -29,46 +29,27 @@ function BrunchForm({ method, brunch}) {
         </ul>
       )}
       <p>
-        <label htmlFor="name">Brunch Name</label>
+        <label htmlFor="name">Title</label>
         <input
           id="name"
           type="text"
           name="name"
           required
-          defaultValue={brunch ? brunch.name : ''}
+          defaultValue={test ? test.name : ''}
         />
       </p>
       <p>
-        <label htmlFor="phoneNumber">Phone Number</label>
-        <input
-          id="phoneNumber"
-          type="text"
-          name="phoneNumber"
+        <label htmlFor="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="5"
           required
-          defaultValue={brunch ? brunch.phoneNumber : ''}
+          defaultValue={test ? test.description : ''}
         />
       </p>
-      <p>
-        <label htmlFor="location">Location</label>
-        <input
-          id="location"
-          type="text"
-          name="location"
-          required
-          defaultValue={brunch ? brunch.location : ''}
-        />
-      </p>
-      <p>
-        <label htmlFor="link">Location Link</label>
-        <input
-          id="link"
-          type="url"
-          name="link"
-          required
-          defaultValue={brunch ? brunch.link : ''}
-        />
-      </p>
-      <div>
+      
+      <div>   
         <button type="button" onClick={cancelHandler} disabled={isSubmitting}>
           Cancel
         </button>
@@ -80,25 +61,24 @@ function BrunchForm({ method, brunch}) {
   );
 }
 
-export default BrunchForm;
+export default TestForm;
 
 export async function action({ request, params }) {
   const method = request.method;
   const data = await request.formData();
 
-  const brunchData = {
+  const testData = {
     name: data.get('name'),
-    phoneNumber: data.get('phoneNumber'),
-    location: data.get('location'),
-    link: data.get('link'),
+    description: data.get('description'),
+    
   };
 
-  const labId = params.labId;
-  let url = `http://localhost:8080/lab/${labId}/branches`;
+  
+  let url = 'http://127.0.0.1:8000/lab_manager/add_test/';////
 
   if (method === 'PATCH') {
-    const branchId = params.branchId;
-    url += `/${branchId}`;
+    url = 'http://127.0.0.1:8000/lab_manager/update_test/';
+   
   }
 
   const token = getAuthToken();
@@ -108,7 +88,7 @@ export async function action({ request, params }) {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     },
-    body: JSON.stringify(brunchData),
+    body: JSON.stringify(testData),
   });
 
   if (response.status === 422) {
@@ -119,11 +99,11 @@ export async function action({ request, params }) {
   }
 
   if (!response.ok) {
-    throw new Response(JSON.stringify({ message: 'Could not save branch.' }), {
+    throw new Response(JSON.stringify({ message: 'Could not save test.' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  return redirect(`/branch`);
+  return redirect(`test`);
 }

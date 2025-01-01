@@ -1,29 +1,29 @@
 import { NavLink, useRouteLoaderData } from 'react-router-dom';
 
 
-function BrunchNavigation() {
+function TestNavigation() {
   const token = useRouteLoaderData('root');
 
   return (
-    <header>
+    <header >
       <nav>
         <ul>
           <li>
             <NavLink
-              to="/brunches"
+              to="/test"
              
               end
             >
-              All brunches
+              All Tests
             </NavLink>
           </li>
           {token && (
             <li>
               <NavLink
-                to="/brunches/new"
+                to="/test/new"
     
               >
-                New brunch
+                New Test
               </NavLink>
             </li>
           )}
@@ -33,4 +33,4 @@ function BrunchNavigation() {
   );
 }
 
-export default BrunchNavigation;
+export default TestNavigation;

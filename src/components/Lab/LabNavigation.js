@@ -1,4 +1,5 @@
 import { NavLink, useRouteLoaderData } from 'react-router-dom';
+import { Form } from 'react-router-dom';
 
 
 function LabNavigation() {
@@ -8,8 +9,16 @@ function LabNavigation() {
     <header >
       <nav>
         <ul >
-          <li>
-            <NavLink
+        
+          {/* {token && (
+            <li>
+              <Form action="/logout" method="post">
+                <button>Logout</button>
+              </Form>
+            </li>
+          )} */}
+            {/* 
+              <li><NavLink
               to="/brunches"
              
               end
@@ -24,9 +33,9 @@ function LabNavigation() {
     
               >
                 
-              </NavLink>
-            </li>
-          )}
+              </NavLink>*/}
+            {/* </li>
+          )}  */}
         </ul>
       </nav>
     </header>
